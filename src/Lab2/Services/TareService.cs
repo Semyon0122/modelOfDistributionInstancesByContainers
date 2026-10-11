@@ -8,24 +8,21 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Services;
 public class TareService : ITareService
 {
     private readonly ITareRepository _tareRepository;
-    private readonly IItemRepository _itemRepository;
 
-    public TareService(ITareRepository tareRepository, IItemRepository itemRepository)
+    public TareService(ITareRepository tareRepository)
     {
         _tareRepository = tareRepository;
-        _itemRepository = itemRepository;
     }
 
-    public ResultTareAddItem AddItemInTare(TareIdentifier tareId, ItemIdentifier itemId)
+    public ResultTareAddItem AddItemInTare(TareIdentifier tareId, Item item)
     {
         Tare? tare = _tareRepository.GetById(tareId);
-        Item? item = _itemRepository.GetById(itemId);
 
-        if (tare is not null && item is not null)
+        if (tare is not null)
         {
             if (tare.Capacity + item.Unit.Characteristics > tare.MaxCapacity)
             {
-                return new ResultTareAddItem.Failure($"No more capacity in tare {tareId} to add item {itemId}!");
+                return new ResultTareAddItem.Failure($"No more capacity in tare {tareId} to add item {item.Id}!");
             }
 
             if (tare.Items.TryGetValue(item.Id, out Item? tareItem))
@@ -34,7 +31,7 @@ public class TareService : ITareService
             }
             else
             {
-                tare.Items.Add(itemId, item);
+                tare.Items.Add(item.Id, item);
             }
 
             tare.AddCapacity(item.Unit.Characteristics);

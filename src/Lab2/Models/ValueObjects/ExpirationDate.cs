@@ -13,4 +13,12 @@ public record ExpirationDate
     {
         return Value > DateTimeOffset.UtcNow;
     }
+
+    public static bool operator >(ExpirationDate left, DateTimeOffset right) => left.Value > right;
+
+    public static bool operator <(ExpirationDate left, DateTimeOffset right) => left.Value < right;
+
+    public static bool operator >=(ExpirationDate left, DateTimeOffset right) => left.Value >= right;
+
+    public static bool operator <=(ExpirationDate left, DateTimeOffset right) => left.Value <= right;
 }

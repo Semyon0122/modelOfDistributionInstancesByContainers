@@ -6,15 +6,21 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Models;
 
 public class StockKeepingUnit
 {
-    public StockKeepingUnitIdentifier Id { get; } = new();
+    public StockKeepingUnitIdentifier Id { get; }
 
     public CategoryType CategoryType { get; }
 
-    public VolumetricWeightCharacteristics Characteristics { get; }
+    public VolumetricWeightCharacteristics Characteristics { get; private set; }
 
     public StockKeepingUnit(CategoryType categoryType, VolumetricWeightCharacteristics characteristics)
     {
+        Id = new();
         CategoryType = categoryType;
         Characteristics = characteristics;
+    }
+
+    public void AddCharacteristics(VolumetricWeightCharacteristics characteristics)
+    {
+        Characteristics += characteristics;
     }
 }

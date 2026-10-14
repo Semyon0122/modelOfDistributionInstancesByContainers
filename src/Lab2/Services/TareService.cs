@@ -25,6 +25,11 @@ public class TareService : ITareService
                 return new ResultTareAddItem.Failure($"No more capacity in tare {tareId} to add item {item.Id}!");
             }
 
+            if (tare.Items.Count != 0 && !tare.Items.All(x => ProductGroup.Same(x.Value.Unit.Group, item.Unit.Group)))
+            {
+                return new ResultTareAddItem.Failure("These products belong to different product groups!");
+            }
+
             if (tare.Items.TryGetValue(item.Id, out Item? tareItem))
             {
                 tareItem.Unit.AddCharacteristics(item.Unit.Characteristics);

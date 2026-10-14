@@ -12,11 +12,26 @@ public class StockKeepingUnit
 
     public VolumetricWeightCharacteristics Characteristics { get; private set; }
 
-    public StockKeepingUnit(CategoryType categoryType, VolumetricWeightCharacteristics characteristics)
+    public ProductGroup? Group { get; }
+
+    public StockKeepingUnit(
+        CategoryType categoryType,
+        VolumetricWeightCharacteristics characteristics)
     {
         Id = new();
         CategoryType = categoryType;
         Characteristics = characteristics;
+    }
+
+    public StockKeepingUnit(
+        CategoryType categoryType,
+        VolumetricWeightCharacteristics characteristics,
+        ProductGroup group)
+    {
+        Id = new();
+        CategoryType = categoryType;
+        Characteristics = characteristics;
+        Group = group;
     }
 
     public void AddCharacteristics(VolumetricWeightCharacteristics characteristics)

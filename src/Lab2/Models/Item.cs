@@ -5,7 +5,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Models;
 
 public class Item
 {
-    public ItemIdentifier Id { get; } = new();
+    public ItemIdentifier Id { get; }
 
     public StockKeepingUnit Unit { get; }
 
@@ -13,6 +13,7 @@ public class Item
 
     public Item(StockKeepingUnit unit, ExpirationDate date)
     {
+        Id = new();
         Unit = unit;
         Date = date;
     }

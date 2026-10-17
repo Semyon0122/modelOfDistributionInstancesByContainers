@@ -9,6 +9,8 @@ public enum CategoryType
     FruitsAndVegetables,
     Cosmetics,
     Clothes,
-    AutoAccessories,
     Furniture,
+    Paper,
+    Scissors,
+    Stone,
 }

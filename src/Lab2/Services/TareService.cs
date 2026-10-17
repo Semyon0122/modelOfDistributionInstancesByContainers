@@ -8,42 +8,53 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Services;
 public class TareService : ITareService
 {
     private readonly ITareRepository _tareRepository;
+    private readonly IProductGroupRepository _groupRepository;
 
-    public TareService(ITareRepository tareRepository)
+    public TareService(ITareRepository tareRepository, IProductGroupRepository groupRepository)
     {
         _tareRepository = tareRepository;
+        _groupRepository = groupRepository;
     }
 
     public ResultTareAddItem AddItemInTare(TareIdentifier tareId, Item item)
     {
         Tare? tare = _tareRepository.GetById(tareId);
 
-        if (tare is not null)
+        if (tare is null)
         {
-            if (tare.Capacity + item.Unit.Characteristics > tare.MaxCapacity)
+            return new ResultTareAddItem.Failure("Tare is not exist!");
+        }
+
+        if (tare.Capacity + item.Unit.Characteristics > tare.MaxCapacity)
+        {
+            return new ResultTareAddItem.Failure($"No more capacity in tare {tareId} to add item {item.Id}!");
+        }
+
+        if (tare.Group is null)
+        {
+            ProductGroup? itemGroup = _groupRepository.GetByCategory(item.Unit.CategoryType);
+
+            if (itemGroup is not null && tare.Items.Count == 0)
             {
-                return new ResultTareAddItem.Failure($"No more capacity in tare {tareId} to add item {item.Id}!");
+                tare.SetProductGroup(itemGroup);
             }
 
-            if (tare.Items.Count != 0 && !tare.Items.All(x => ProductGroup.Same(x.Value.Unit.Group, item.Unit.Group)))
+            if (itemGroup is not null && tare.Items.Count != 0)
             {
                 return new ResultTareAddItem.Failure("These products belong to different product groups!");
             }
-
-            if (tare.Items.TryGetValue(item.Id, out Item? tareItem))
+        }
+        else
+        {
+            if (!tare.Group.Contains(item.Unit.CategoryType))
             {
-                tareItem.Unit.AddCharacteristics(item.Unit.Characteristics);
+                return new ResultTareAddItem.Failure("These products belong to different product groups!");
             }
-            else
-            {
-                tare.Items.Add(item.Id, item);
-            }
-
-            tare.AddCapacity(item.Unit.Characteristics);
-
-            return new ResultTareAddItem.Success();
         }
 
-        return new ResultTareAddItem.Failure("Id is not exist!");
+        tare.Items.Add(item.Id, item);
+        tare.AddCapacity(item.Unit.Characteristics);
+
+        return new ResultTareAddItem.Success();
     }
 }

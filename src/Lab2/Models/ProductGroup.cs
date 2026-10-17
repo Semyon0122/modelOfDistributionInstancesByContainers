@@ -15,17 +15,6 @@ public class ProductGroup
         _categoryTypes = categoryTypes;
     }
 
-    public static bool Same(ProductGroup? left, ProductGroup? right)
-    {
-        if ((left is null && right is null) ||
-            (left is not null && right is not null && left.Id == right.Id))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     public bool Contains(CategoryType category)
     {
         return _categoryTypes.Contains(category);

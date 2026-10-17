@@ -2,10 +2,12 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Models.Logger;
 
 public class CountingLogger : ILogger
 {
-    public LinkedList<string> Messages { get; } = new();
+    private readonly List<string> _messages = new();
+
+    public IReadOnlyCollection<string> Messages => _messages.AsReadOnly();
 
     public void Log(string message)
     {
-        Messages.AddLast(message);
+        _messages.Add(message);
     }
 }

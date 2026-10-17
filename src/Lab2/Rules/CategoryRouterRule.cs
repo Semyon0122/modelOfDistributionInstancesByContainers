@@ -24,9 +24,7 @@ public class CategoryRouterRule : IPlacementRule
         {
             return route.TryAdd(item);
         }
-        else
-        {
-            return _default.TryAdd(item);
-        }
+
+        return _default.TryAdd(item);
     }
 }

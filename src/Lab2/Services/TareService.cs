@@ -1,5 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Models;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
+using Itmo.ObjectOrientedProgramming.Lab2.Models.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab2.Repositories;
 using Itmo.ObjectOrientedProgramming.Lab2.Results.TareResults;
 
@@ -30,29 +31,22 @@ public class TareService : ITareService
             return new ResultTareAddItem.Failure($"No more capacity in tare {tareId} to add item {item.Id}!");
         }
 
-        if (tare.Group is null)
+        if (tare.Items.Count != 0)
         {
             ProductGroup? itemGroup = _groupRepository.GetByCategory(item.Unit.CategoryType);
 
-            if (itemGroup is not null && tare.Items.Count == 0)
-            {
-                tare.SetProductGroup(itemGroup);
-            }
+            Category categoryInTare = tare.Items.First().Unit.CategoryType;
+            ProductGroup? tareGroup = _groupRepository.GetByCategory(categoryInTare);
 
-            if (itemGroup is not null && tare.Items.Count != 0)
-            {
-                return new ResultTareAddItem.Failure("These products belong to different product groups!");
-            }
-        }
-        else
-        {
-            if (!tare.Group.Contains(item.Unit.CategoryType))
+            if ((tareGroup is null && itemGroup is not null) ||
+                (tareGroup is not null && itemGroup is null) ||
+                (tareGroup is not null && itemGroup is not null && tareGroup.Id != itemGroup.Id))
             {
                 return new ResultTareAddItem.Failure("These products belong to different product groups!");
             }
         }
 
-        tare.Items.Add(item.Id, item);
+        tare.Items.AddLast(item);
         tare.AddCapacity(item.Unit.Characteristics);
 
         return new ResultTareAddItem.Success();

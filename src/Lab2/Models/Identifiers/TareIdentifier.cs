@@ -1,8 +1,13 @@
 namespace Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
 
-public record TareIdentifier
+public readonly record struct TareIdentifier
 {
     private static long _nextId;
 
-    public long Id { get; } = _nextId++;
+    public long Id { get; }
+
+    public TareIdentifier()
+    {
+        Id = _nextId++;
+    }
 }

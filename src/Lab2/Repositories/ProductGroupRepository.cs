@@ -1,6 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Models;
-using Itmo.ObjectOrientedProgramming.Lab2.Models.Enums;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
+using Itmo.ObjectOrientedProgramming.Lab2.Models.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Repositories;
 
@@ -18,7 +18,7 @@ public class ProductGroupRepository : IProductGroupRepository
         return _storage.GetValueOrDefault(id);
     }
 
-    public ProductGroup? GetByCategory(CategoryType categoryType)
+    public ProductGroup? GetByCategory(Category categoryType)
     {
         foreach (KeyValuePair<GroupIdentifier, ProductGroup> group in _storage)
         {

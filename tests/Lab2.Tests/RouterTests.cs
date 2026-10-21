@@ -1,5 +1,4 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Models;
-using Itmo.ObjectOrientedProgramming.Lab2.Models.Enums;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab2.Repositories;
@@ -30,7 +29,7 @@ public class RouterTests
         var tareService = new TareService(tareRepository, TestConstants.GroupRepository);
 
         var tareRule = new TareRule(tare.Id, tareService);
-        var router = new CategoryRouterRule(new Dictionary<CategoryType, IPlacementRule>(), tareRule);
+        var router = new CategoryRouterRule(new Dictionary<Category, IPlacementRule>(), tareRule);
 
         // act
         ResultPlacement result = router.TryAdd(bakeryItem);
@@ -69,7 +68,7 @@ public class RouterTests
         var tareRule2 = new TareRule(tare2.Id, tareService);
         var emptyTareRule = new TareRule(new TareIdentifier(), tareService);
 
-        var mapping = new Dictionary<CategoryType, IPlacementRule>();
+        var mapping = new Dictionary<Category, IPlacementRule>();
         mapping.Add(TestConstants.ElectronicsCategory, tareRule1);
         mapping.Add(TestConstants.FruitsAndVegetablesCategory, tareRule2);
 
@@ -84,9 +83,9 @@ public class RouterTests
         Assert.IsType<ResultPlacement.Success>(result2);
 
         Assert.Single(tare1.Items);
-        Assert.Equal(tare1.Items[electronicItem.Id], electronicItem);
+        Assert.Equal(tare1.Items.Last(), electronicItem);
 
         Assert.Single(tare2.Items);
-        Assert.Equal(tare2.Items[fruitsAndVegetablesItem.Id], fruitsAndVegetablesItem);
+        Assert.Equal(tare2.Items.Last(), fruitsAndVegetablesItem);
     }
 }

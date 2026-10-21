@@ -9,7 +9,7 @@ public class Item
 
     public StockKeepingUnit Unit { get; }
 
-    public ExpirationDate Date { get; }
+    public ExpirationDate? Date { get; }
 
     public Item(StockKeepingUnit unit, ExpirationDate date)
     {
@@ -18,8 +18,9 @@ public class Item
         Date = date;
     }
 
-    public bool IsItemExpired()
+    public Item(StockKeepingUnit unit)
     {
-        return Date.IsItemExpired();
+        Id = new();
+        Unit = unit;
     }
 }

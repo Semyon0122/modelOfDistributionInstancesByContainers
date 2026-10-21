@@ -1,8 +1,0 @@
-namespace Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
-
-public record PalletIdentifier
-{
-    private static long _nextId;
-
-    public long Id { get; } = _nextId++;
-}

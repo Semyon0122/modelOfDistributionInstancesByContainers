@@ -1,6 +1,6 @@
 namespace Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
 
-public record GroupIdentifier
+public readonly record struct GroupIdentifier
 {
     public long Id { get; }
 

@@ -1,4 +1,3 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Models.Enums;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.ValueObjects;
 
@@ -8,12 +7,12 @@ public class StockKeepingUnit
 {
     public StockKeepingUnitIdentifier Id { get; }
 
-    public CategoryType CategoryType { get; }
+    public Category CategoryType { get; }
 
     public VolumetricWeightCharacteristics Characteristics { get; private set; }
 
     public StockKeepingUnit(
-        CategoryType categoryType,
+        Category categoryType,
         VolumetricWeightCharacteristics characteristics)
     {
         Id = new();

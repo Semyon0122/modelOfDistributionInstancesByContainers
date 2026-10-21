@@ -1,5 +1,4 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Models;
-using Itmo.ObjectOrientedProgramming.Lab2.Models.Enums;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.Logger;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab2.Repositories;
@@ -40,8 +39,8 @@ public class ExpirationTests
         var tareRule1 = new TareRule(tareWithNonExpired.Id, tareService);
         var tareRule2 = new TareRule(tareWithExpired.Id, tareService);
 
-        var nonExpiredRule = new ExpirationRule(ExpirationMode.NotExpired, tareRule1);
-        var expiredRule = new ExpirationRule(ExpirationMode.Expired, tareRule2);
+        var nonExpiredRule = new ExpirationRuleNotExpiredOrNull(tareRule1);
+        var expiredRule = new ExpirationRuleExpired(tareRule2);
 
         var palletRule = new PalletRule(new List<IPlacementRule>() { nonExpiredRule, expiredRule });
 
@@ -56,8 +55,8 @@ public class ExpirationTests
         Assert.IsType<ResultPlacement.Success>(result1);
         Assert.IsType<ResultPlacement.Success>(result2);
 
-        Assert.True(tareWithNonExpired.Items.ContainsValue(nonExpiredItem));
-        Assert.True(tareWithExpired.Items.ContainsValue(expiredItem));
+        Assert.Equal(nonExpiredItem, tareWithNonExpired.Items.Last());
+        Assert.Equal(expiredItem, tareWithExpired.Items.Last());
 
         if (result1 is ResultPlacement.Success && result2 is ResultPlacement.Success)
         {

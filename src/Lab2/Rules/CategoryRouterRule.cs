@@ -1,17 +1,17 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Models;
-using Itmo.ObjectOrientedProgramming.Lab2.Models.Enums;
+using Itmo.ObjectOrientedProgramming.Lab2.Models.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab2.Results.PlacementResults;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Rules;
 
 public class CategoryRouterRule : IPlacementRule
 {
-    private readonly Dictionary<CategoryType, IPlacementRule> _routes;
+    private readonly Dictionary<Category, IPlacementRule> _routes;
 
     private readonly IPlacementRule _default;
 
     public CategoryRouterRule(
-        Dictionary<CategoryType, IPlacementRule> routes,
+        Dictionary<Category, IPlacementRule> routes,
         IPlacementRule defaultRoute)
     {
         _routes = routes;

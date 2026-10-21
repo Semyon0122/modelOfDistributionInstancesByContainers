@@ -1,5 +1,5 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Models.Enums;
 using Itmo.ObjectOrientedProgramming.Lab2.Models.Identifiers;
+using Itmo.ObjectOrientedProgramming.Lab2.Models.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Models;
 
@@ -7,15 +7,15 @@ public class ProductGroup
 {
     public GroupIdentifier Id { get; }
 
-    private readonly IReadOnlyCollection<CategoryType> _categoryTypes;
+    private readonly IReadOnlyCollection<Category> _categoryTypes;
 
-    public ProductGroup(long id, IReadOnlyCollection<CategoryType> categoryTypes)
+    public ProductGroup(long id, IReadOnlyCollection<Category> categoryTypes)
     {
         Id = new GroupIdentifier(id);
-        _categoryTypes = categoryTypes;
+        _categoryTypes = categoryTypes.Distinct().ToList();
     }
 
-    public bool Contains(CategoryType category)
+    public bool Contains(Category category)
     {
         return _categoryTypes.Contains(category);
     }
